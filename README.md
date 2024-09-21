@@ -1,2 +1,5 @@
 # catroidvaniadynamiclights
-cats dynamic lights mod for reindev
+
+a basic dynamic lights mod for reindev
+
+requires foxloader

@@ -1,8 +1,8 @@
 # catroidvaniadynamiclights
 
-a basic dynamic lights mod for reindev
+a basic client side dynamic lights mod for reindev
 
-requires foxloader
+requires [foxloader](https://github.com/Fox2Code/FoxLoader)
 
 handheld items emit lights
 ![a glowing minecraft player holding a torch](images/helditems.png)

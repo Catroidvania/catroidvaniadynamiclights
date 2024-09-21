@@ -16,7 +16,7 @@ dropped item emit lights
 ![a lava bucket dropped on the ground](images/droppeditem.png)
 ![several dropped items on the ground](images/droppeditems.png)
 
-flaming mobs emit lights (must be enabled in the config for lag reasons)
+flaming mobs emit lights
 ![a spider on fire](images/flamingmob.png)
 
 lit tnt and exploding creepers glow

@@ -21,7 +21,7 @@ public class DynamicLightsUpdater {
     public static final Minecraft mc = Minecraft.theMinecraft;
     public static EntityPlayer player = Minecraft.theMinecraft.thePlayer;
     public static World world = Minecraft.theMinecraft.theWorld;
-    public static boolean needsReset = false;
+    public static boolean isSubmerged = false;
 
     public void updateDynamicLights() {
         player = mc.thePlayer;
@@ -37,6 +37,10 @@ public class DynamicLightsUpdater {
         }
         if (player != null) {
             ItemStack heldItem = player.inventory.getCurrentItem();
+
+            if (!DynamicLights.CONFIG.alwaysLitUnderwater && player.isInWater() && !isLitUnderwater(heldItem)) {
+                return;
+            }
             this.lightMap.setLightWithPropagate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
         }
     }
@@ -73,6 +77,9 @@ public class DynamicLightsUpdater {
         if (DynamicLights.CONFIG.itemLights) {
             if (entity instanceof EntityItem) {
                 ItemStack entityItem = ((EntityItem)entity).item;
+                if (!DynamicLights.CONFIG.alwaysLitUnderwater && entity.isInWater() && !isLitUnderwater(entityItem)) {
+                    return 0;
+                }
                 return getItemLight(entityItem);
             }
         }
@@ -81,8 +88,14 @@ public class DynamicLightsUpdater {
                 int fuse_time = ((EntityCreeperMixins) entity).getTimeSinceIgnited();
                 return fuse_time / 2;
             } else if (entity instanceof EntityDynamite) {
+                if (!DynamicLights.CONFIG.alwaysLitUnderwater && entity.isInWater()) {
+                    return 0;
+                }
                 return 10;
             } else if (entity instanceof EntityTorch) {
+                if (!DynamicLights.CONFIG.alwaysLitUnderwater && entity.isInWater()) {
+                    return 0;
+                }
                 return 14;
             } else if (entity instanceof EntityWyvernFireball) {
                 return 14;
@@ -93,6 +106,9 @@ public class DynamicLightsUpdater {
             } else if (entity instanceof EntityLightningBolt) {
                 return 15;
             } else if (entity instanceof EntityMolotov) {
+                if (!DynamicLights.CONFIG.alwaysLitUnderwater && entity.isInWater()) {
+                    return 0;
+                }
                 return 10;
             } else if (entity instanceof EntityTNTPrimed) {
                 return 15;
@@ -166,6 +182,30 @@ public class DynamicLightsUpdater {
         }
 
         return 0;
+    }
+
+    public boolean isLitUnderwater(ItemStack item) {
+        if (item == null) {
+            return false;
+        }
+        int id = item.itemID;
+
+        if (item.getItem().isItemBlock()) {
+            ItemBlock itemBlock = (ItemBlock)item.getItem();
+            if (itemBlock == null) {
+                return false;
+            }
+            id = itemBlock.blockID;
+
+            return id != Block.torch.blockID &&
+                    id != Block.torchRedstoneActive.blockID;
+        } else {
+            return id != Item.stickyTorch.itemID &&
+                    id != Item.molotov.itemID &&
+                    id != Item.bucketLava.itemID &&
+                    id != Item.goldenBucketLava.itemID &&
+                    id != Item.fireCharge.itemID;
+        }
     }
 
     public int blockPos(double pos) {

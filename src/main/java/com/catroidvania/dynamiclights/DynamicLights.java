@@ -44,6 +44,9 @@ public class DynamicLights extends Mod {
         @ConfigEntry(configName = "on fire lights", handlerName = "writeConfig")
         public boolean onFireLights = true;
 
+        @ConfigEntry(configName = "always lit underwater", handlerName = "writeConfig")
+        public boolean alwaysLitUnderwater = false;
+
         @ConfigEntry(configName =  "max entity distance", handlerName = "writeConfig")
         public LightsDistance maxEntityDistance = LightsDistance.NORMAL;
 
@@ -54,6 +57,7 @@ public class DynamicLights extends Mod {
                 pwriter.println("entityLights:" + CONFIG.entityLights);
                 pwriter.println("handheldLights:" + CONFIG.handheldLights);
                 pwriter.println("onFireLights:" + CONFIG.onFireLights);
+                pwriter.println("alwaysLitUnderwater:" + CONFIG.alwaysLitUnderwater);
                 pwriter.println("maxEntityDistance:" + CONFIG.maxEntityDistance);
                 pwriter.close();
             } catch (Exception exception) {
@@ -82,6 +86,9 @@ public class DynamicLights extends Mod {
                             }
                             if (strings[0].equals("onFireLights")) {
                                 CONFIG.onFireLights = strings[1].equals("true");
+                            }
+                            if (strings[0].equals("alwaysLitUnderwater")) {
+                                CONFIG.alwaysLitUnderwater = strings[1].equals("true");
                             }
                             if (strings[0].equals("maxEntityDistance")) {
                                 CONFIG.maxEntityDistance = LightsDistance.valueOf(strings[1]);

@@ -53,6 +53,11 @@ public class DynamicLights extends Mod {
         @ConfigEntry(configName = "always lit underwater", handlerName = "writeConfig")
         public boolean alwaysLitUnderwater = false;
 
+        /*
+        @ConfigEntry(configName = "always block update", handlerName = "writeConfig")
+        public boolean alwaysBlockUpdate = true;
+        */
+
         @ConfigEntry(configName =  "max entity distance", handlerName = "writeConfig")
         public LightsDistance maxEntityDistance = LightsDistance.MEDIUM;
 
@@ -67,6 +72,7 @@ public class DynamicLights extends Mod {
                 pwriter.println("handheldLights:" + CONFIG.handheldLights);
                 pwriter.println("onFireLights:" + CONFIG.onFireLights);
                 pwriter.println("alwaysLitUnderwater:" + CONFIG.alwaysLitUnderwater);
+                //pwriter.println("alwaysBlockUpdate:" + CONFIG.alwaysBlockUpdate);
                 pwriter.println("maxEntityDistance:" + CONFIG.maxEntityDistance);
                 pwriter.println("updateSpeed:" + CONFIG.updateSpeed);
                 pwriter.close();
@@ -100,6 +106,11 @@ public class DynamicLights extends Mod {
                             if (strings[0].equals("alwaysLitUnderwater")) {
                                 CONFIG.alwaysLitUnderwater = strings[1].equals("true");
                             }
+                            /*
+                            if (strings[0].equals("alwaysBlockUpdate")) {
+                                CONFIG.alwaysBlockUpdate = strings[1].equals("true");
+                            }
+                            */
                             if (strings[0].equals("maxEntityDistance")) {
                                 CONFIG.maxEntityDistance = LightsDistance.valueOf(strings[1]);
                             }

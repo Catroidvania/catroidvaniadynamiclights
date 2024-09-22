@@ -2,6 +2,7 @@ package com.catroidvania.dynamiclights;
 
 import com.catroidvania.dynamiclights.client.mixins.EntityCreeperMixins;
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.client.player.EntityOtherPlayerMP;
 import net.minecraft.src.game.block.Block;
 import net.minecraft.src.game.entity.Entity;
 import net.minecraft.src.game.entity.monster.EntityBlaze;
@@ -21,20 +22,23 @@ public class DynamicLightsUpdater {
     public static final Minecraft mc = Minecraft.theMinecraft;
     public static EntityPlayer player = Minecraft.theMinecraft.thePlayer;
     public static World world = Minecraft.theMinecraft.theWorld;
-    public static boolean isSubmerged = false;
-    public static long tick = 0;
+    public long tick = 0;
 
     public void updateDynamicLights() {
         player = mc.thePlayer;
         world = mc.theWorld;
-        tick++;
-        if (tick % DynamicLights.CONFIG.getTicksPerUpdate(DynamicLights.CONFIG.updateSpeed) == 0) {
+        this.tick++;
+        if (needsUpdate()) {
             this.lightMap.clearLightMap();
             this.updateHeldItemLight();
             if (DynamicLights.CONFIG.maxEntityDistance != DynamicLights.DynamicLightsConfig.LightsDistance.OFF) {
                 this.updateEntityLight();
             }
         }
+    }
+
+    public boolean needsUpdate() {
+        return this.tick % DynamicLights.CONFIG.getTicksPerUpdate(DynamicLights.CONFIG.updateSpeed) == 0;
     }
 
     public void updateHeldItemLight() {
@@ -90,7 +94,13 @@ public class DynamicLightsUpdater {
             }
         }
         if (DynamicLights.CONFIG.entityLights) {
-            if (entity instanceof EntityCreeper) {
+            if (entity instanceof EntityOtherPlayerMP) {
+                ItemStack entityItem = ((EntityOtherPlayerMP)entity).inventory.getCurrentItem();
+                if (!DynamicLights.CONFIG.alwaysLitUnderwater && entity.isInWater() && !isLitUnderwater(entityItem)) {
+                    return 0;
+                }
+                return getItemLight(entityItem);
+            } else if (entity instanceof EntityCreeper) {
                 int fuse_time = ((EntityCreeperMixins) entity).getTimeSinceIgnited();
                 return fuse_time / 2;
             } else if (entity instanceof EntityDynamite) {

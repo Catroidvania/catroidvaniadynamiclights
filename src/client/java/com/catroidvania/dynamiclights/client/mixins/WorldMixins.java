@@ -13,13 +13,16 @@ public class WorldMixins {
     @Overwrite
     public float getBrightness(int x, int y, int z, int brightness) {
         int light = thisWorld.getBlockLightValue(x, y, z);
+
+        if (light < brightness) {
+            light = brightness;
+        }
+
         int dynamicLight = DynamicLightsClient.lightHandler.lightMap.getLight(x, y, z);
         if (light < dynamicLight) {
             light = dynamicLight;
         }
-        if (light < brightness) {
-            light = brightness;
-        }
+
         thisWorld.markBlockNeedsUpdate(x, y, z);
         return thisWorld.worldProvider.lightBrightnessTable[light];
     }
@@ -27,10 +30,12 @@ public class WorldMixins {
     @Overwrite
     public float getLightBrightness(int x, int y, int z) {
         int light = thisWorld.getBlockLightValue(x, y, z);
+
         int dynamicLight = DynamicLightsClient.lightHandler.lightMap.getLight(x, y, z);
         if (light < dynamicLight) {
             light = dynamicLight;
         }
+
         thisWorld.markBlockNeedsUpdate(x, y, z);
         return thisWorld.worldProvider.lightBrightnessTable[light];
     }

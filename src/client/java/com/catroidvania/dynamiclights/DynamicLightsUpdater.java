@@ -141,8 +141,7 @@ public class DynamicLightsUpdater {
                         id == Block.hiveLight.blockID ||
                         id == Block.frozestone.blockID) {
                 return  15;
-            } else if (id == Block.torchRedstoneActive.blockID ||
-                        id == Block.mushroomGlowing.blockID) {
+            } else if (id == Block.mushroomGlowing.blockID) {
                 return 7;
             } else if (id == Block.magma.blockID ||
                         id == Block.magmaBrick.blockID ||

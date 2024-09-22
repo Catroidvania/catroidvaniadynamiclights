@@ -39,12 +39,15 @@ some entities such as fireballs and blazes also emit light
   - torches, lava buckets, molotovs, dynamite, and fire charges
 - max entity distance: entities outside the max distance will no longer emit light, useful for reducing lag 
   - off: dont scan for entities (does not affect handheld lighting)
-  - tiny: 8 blocks
   - short: 16 blocks
   - normal: 32 blocks
-  - far: 64 blocks (note: hostile mobs burning in the day cause a lot of lag)
-  - ultra: 128 blocks
-  - max: unlimited
+  - far: 64 blocks
+  - unlimited: no limit
+- light updates: how frequently the dynamic lighting is updated
+  - minimal: 2 per second
+  - decreased: 5 per second (choppier lighting for fast moving entities)
+  - smooth: 10 per second
+  - smoothest: 20 per second (one per tick)
 
 ---
 

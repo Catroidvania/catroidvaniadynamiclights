@@ -22,14 +22,18 @@ public class DynamicLightsUpdater {
     public static EntityPlayer player = Minecraft.theMinecraft.thePlayer;
     public static World world = Minecraft.theMinecraft.theWorld;
     public static boolean isSubmerged = false;
+    public static long tick = 0;
 
     public void updateDynamicLights() {
         player = mc.thePlayer;
         world = mc.theWorld;
-        this.lightMap.clearLightMap();
-        this.updateHeldItemLight();
-        if (DynamicLights.CONFIG.maxEntityDistance != DynamicLights.DynamicLightsConfig.LightsDistance.OFF) {
-            this.updateEntityLight();
+        tick++;
+        if (tick % DynamicLights.CONFIG.getTicksPerUpdate(DynamicLights.CONFIG.updateSpeed) == 0) {
+            this.lightMap.clearLightMap();
+            this.updateHeldItemLight();
+            if (DynamicLights.CONFIG.maxEntityDistance != DynamicLights.DynamicLightsConfig.LightsDistance.OFF) {
+                this.updateEntityLight();
+            }
         }
     }
 

@@ -24,12 +24,17 @@ public class DynamicLights extends Mod {
 
         public enum LightsDistance {
             OFF,
-            TINY,
             SHORT,
-            NORMAL,
+            MEDIUM,
             FAR,
-            ULTRA,
-            MAX
+            UNLIMITED
+        }
+
+        public enum UpdatesPerSecond {
+            MINIMAL,
+            DECREASED,
+            SMOOTH,
+            SMOOTHEST
         }
 
         @ConfigEntry(configName = "dropped item lights", handlerName = "writeConfig")
@@ -49,7 +54,10 @@ public class DynamicLights extends Mod {
         public boolean alwaysLitUnderwater = false;
 
         @ConfigEntry(configName =  "max entity distance", handlerName = "writeConfig")
-        public LightsDistance maxEntityDistance = LightsDistance.NORMAL;
+        public LightsDistance maxEntityDistance = LightsDistance.MEDIUM;
+
+        @ConfigEntry(configName =  "light updates", handlerName = "writeConfig")
+        public UpdatesPerSecond updateSpeed = UpdatesPerSecond.SMOOTH;
 
         public void writeConfig() {
             try {
@@ -60,6 +68,7 @@ public class DynamicLights extends Mod {
                 pwriter.println("onFireLights:" + CONFIG.onFireLights);
                 pwriter.println("alwaysLitUnderwater:" + CONFIG.alwaysLitUnderwater);
                 pwriter.println("maxEntityDistance:" + CONFIG.maxEntityDistance);
+                pwriter.println("updateSpeed:" + CONFIG.updateSpeed);
                 pwriter.close();
             } catch (Exception exception) {
                 System.out.println("could not write to config file!");
@@ -94,6 +103,9 @@ public class DynamicLights extends Mod {
                             if (strings[0].equals("maxEntityDistance")) {
                                 CONFIG.maxEntityDistance = LightsDistance.valueOf(strings[1]);
                             }
+                            if (strings[0].equals("updateSpeed")) {
+                                CONFIG.updateSpeed = UpdatesPerSecond.valueOf(strings[1]);
+                            }
                         } catch (Exception exception) {
                             System.out.println("failed to parse option " + line);
                         }
@@ -108,20 +120,30 @@ public class DynamicLights extends Mod {
 
         public float getMaxDistanceValue(LightsDistance ld) {
             switch (ld) {
-                case TINY:
-                    return 8.0f;
                 case SHORT:
                     return 16.0f;
-                case NORMAL:
+                case MEDIUM:
                     return 32.0f;
                 case FAR:
                     return 64.0f;
-                case ULTRA:
-                    return 128.0f;
-                case MAX:
+                case UNLIMITED:
                     return 1024.0f;
             }
             return 0;
+        }
+
+        public int getTicksPerUpdate(UpdatesPerSecond ups) {
+            switch (ups) {
+                case MINIMAL:
+                    return 10;
+                case DECREASED:
+                    return 4;
+                case SMOOTH:
+                    return 2;
+                case SMOOTHEST:
+                    return 1;
+            }
+            return 1;
         }
     }
 }

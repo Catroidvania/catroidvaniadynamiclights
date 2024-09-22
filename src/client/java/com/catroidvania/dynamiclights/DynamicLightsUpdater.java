@@ -203,7 +203,7 @@ public class DynamicLightsUpdater {
             id = itemBlock.blockID;
 
             return id != Block.torch.blockID &&
-                    id != Block.torchRedstoneActive.blockID;
+                    id != Block.pumpkinLantern.blockID;
         } else {
             return id != Item.stickyTorch.itemID &&
                     id != Item.molotov.itemID &&

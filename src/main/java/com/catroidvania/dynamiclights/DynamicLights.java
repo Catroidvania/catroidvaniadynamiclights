@@ -23,6 +23,7 @@ public class DynamicLights extends Mod {
     public static class DynamicLightsConfig {
 
         public enum LightsDistance {
+            OFF,
             TINY,
             SHORT,
             NORMAL,
@@ -118,7 +119,7 @@ public class DynamicLights extends Mod {
                 case ULTRA:
                     return 128.0f;
                 case MAX:
-                    return 512.0f;
+                    return 1024.0f;
             }
             return 0;
         }

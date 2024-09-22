@@ -28,4 +28,24 @@ lit tnt and exploding creepers glow
 most blocks that give off light also give off light as dropped and held items
 some entities such as fireballs and blazes also emit light
 
+## config options
+
+- dropped item lights: enable item entities emitting light
+- entity lights: enable lights for:
+  - lit tnt, exploding creepers, thrown sticky torches, molotovs, dynamite, fireballs, and lightning
+- handheld lights: enable lighting from the currently held player item
+- on fire lights: enable lights for entities lit on fire, requires entity lights to be enabled
+- always lit underwater: when false, the certain items will stop emitting light in water:
+  - torches, lava buckets, molotovs, dynamite, and fire charges
+- max entity distance: entities outside the max distance will no longer emit light, useful for reducing lag 
+  - off: dont scan for entities (does not affect handheld lighting)
+  - tiny: 8 blocks
+  - short: 16 blocks
+  - normal: 32 blocks
+  - far: 64 blocks (note: hostile mobs burning in the day cause a lot of lag)
+  - ultra: 128 blocks
+  - max: unlimited
+
+---
+
 this project is still in development so there may be bugs

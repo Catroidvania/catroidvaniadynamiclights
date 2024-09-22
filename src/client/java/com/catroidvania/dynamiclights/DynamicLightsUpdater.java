@@ -28,7 +28,9 @@ public class DynamicLightsUpdater {
         world = mc.theWorld;
         this.lightMap.clearLightMap();
         this.updateHeldItemLight();
-        this.updateEntityLight();
+        if (DynamicLights.CONFIG.maxEntityDistance != DynamicLights.DynamicLightsConfig.LightsDistance.OFF) {
+            this.updateEntityLight();
+        }
     }
 
     public void updateHeldItemLight() {

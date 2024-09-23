@@ -6,6 +6,6 @@
   "mixins": [
     "WorldMixins",
     "ChunkCacheMixins",
-    "EntityCreeperMixins"
+    "EntityCreeperAccessor"
   ]
 }

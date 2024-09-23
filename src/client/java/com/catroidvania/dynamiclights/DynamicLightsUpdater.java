@@ -1,6 +1,6 @@
 package com.catroidvania.dynamiclights;
 
-import com.catroidvania.dynamiclights.client.mixins.EntityCreeperMixins;
+import com.catroidvania.dynamiclights.client.mixins.EntityCreeperAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.client.player.EntityOtherPlayerMP;
 import net.minecraft.src.game.block.Block;
@@ -74,13 +74,13 @@ public class DynamicLightsUpdater {
         }
     }
 
-    public int getEntityLight(Entity entity) {
+    public static int getEntityLight(Entity entity) {
         if (entity == null) {
             return 0;
         }
 
         if (DynamicLights.CONFIG.onFireLights) {
-            if (entity.fire > 0) {
+            if (entity.isBurning()) {
                 return 15;
             }
         }
@@ -101,8 +101,8 @@ public class DynamicLightsUpdater {
                 }
                 return getItemLight(entityItem);
             } else if (entity instanceof EntityCreeper) {
-                int fuse_time = ((EntityCreeperMixins) entity).getTimeSinceIgnited();
-                return fuse_time / 2;
+                int igniteTime = ((EntityCreeperAccessor) entity).getTimeSinceIgnited();
+                return igniteTime / 2;
             } else if (entity instanceof EntityDynamite) {
                 if (!DynamicLights.CONFIG.alwaysLitUnderwater && entity.isInWater()) {
                     return 0;
@@ -135,7 +135,7 @@ public class DynamicLightsUpdater {
         return 0;
     }
 
-    public int getItemLight(ItemStack item) {
+    public static int getItemLight(ItemStack item) {
         if (item == null) {
             return 0;
         }
@@ -199,7 +199,7 @@ public class DynamicLightsUpdater {
         return 0;
     }
 
-    public boolean isLitUnderwater(ItemStack item) {
+    public static boolean isLitUnderwater(ItemStack item) {
         if (item == null) {
             return false;
         }
@@ -223,7 +223,7 @@ public class DynamicLightsUpdater {
         }
     }
 
-    public int blockPos(double pos) {
+    public static int blockPos(double pos) {
         return (int)Math.floor(pos);
     }
 }

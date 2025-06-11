@@ -55,7 +55,8 @@ public class DynamicLightsUpdater {
                 return;
             }
 
-            this.lightMap.setLightWithPropagate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
+            //this.lightMap.setLightWithPropagate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
+            this.lightMap.setLightWithUpdate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
         }
     }
 
@@ -73,7 +74,8 @@ public class DynamicLightsUpdater {
                 if (entityDist > DynamicLights.CONFIG.getMaxDistanceValue(DynamicLights.CONFIG.maxEntityDistance)) {
                     continue;
                 }
-                this.lightMap.setLightWithPropagate(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
+                //this.lightMap.setLightWithPropagate(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
+                this.lightMap.setLightWithUpdate(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
             }
         }
     }

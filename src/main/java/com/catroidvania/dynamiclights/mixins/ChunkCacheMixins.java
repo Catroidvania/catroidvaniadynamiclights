@@ -2,6 +2,7 @@ package com.catroidvania.dynamiclights.mixins;
 
 import com.catroidvania.dynamiclights.DynamicLightsClient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.common.world.EnumSkyBlock;
 import net.minecraft.common.world.chunk.ChunkCache;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -24,7 +25,8 @@ public class ChunkCacheMixins {
             light = dynamicLight;
         }
 
-        Minecraft.theMinecraft.theWorld.markBlockNeedsUpdate(x, y, z);
+        //Minecraft.theMinecraft.theWorld.markBlockNeedsUpdate(x, y, z);
+        //Minecraft.theMinecraft.theWorld.markBlockAsNeedsUpdate(x, y, z);
         return Minecraft.theMinecraft.theWorld.worldProvider.lightBrightnessTable[light];
     }
 
@@ -37,7 +39,8 @@ public class ChunkCacheMixins {
             light = dynamicLight;
         }
 
-        Minecraft.theMinecraft.theWorld.markBlockNeedsUpdate(x, y, z);
+        //Minecraft.theMinecraft.theWorld.markBlockNeedsUpdate(x, y, z);
+        //Minecraft.theMinecraft.theWorld.markBlockAsNeedsUpdate(x, y, z);
         return Minecraft.theMinecraft.theWorld.worldProvider.lightBrightnessTable[light];
     }
 }

@@ -1,6 +1,8 @@
 package com.catroidvania.dynamiclights.mixins;
 
 import com.catroidvania.dynamiclights.DynamicLightsClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.common.world.EnumSkyBlock;
 import net.minecraft.common.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -12,7 +14,6 @@ public class WorldMixins {
 
     @Overwrite
     public float getBrightness(int x, int y, int z, int brightness) {
-        System.out.println("a");
         int light = thisWorld.getBlockLightValue(x, y, z);
 
         if (light < brightness) {
@@ -24,7 +25,8 @@ public class WorldMixins {
             light = dynamicLight;
         }
 
-        thisWorld.markBlockNeedsUpdate(x, y, z);
+        //thisWorld.markBlockNeedsUpdate(x, y, z);
+        //thisWorld.markBlockAsNeedsUpdate(x, y, z);
         return thisWorld.worldProvider.lightBrightnessTable[light];
     }
 
@@ -37,7 +39,8 @@ public class WorldMixins {
             light = dynamicLight;
         }
 
-        thisWorld.markBlockNeedsUpdate(x, y, z);
+        //thisWorld.markBlockNeedsUpdate(x, y, z);
+        //thisWorld.markBlockAsNeedsUpdate(x, y, z);
         return thisWorld.worldProvider.lightBrightnessTable[light];
     }
 }

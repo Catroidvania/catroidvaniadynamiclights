@@ -1,15 +1,21 @@
 package com.catroidvania.dynamiclights;
 
 import com.fox2code.foxloader.config.ConfigEntry;
+import com.fox2code.foxloader.event.FoxLoaderEvents;
+import com.fox2code.foxloader.event.world.WorldTickEvent;
+import com.fox2code.foxloader.launcher.FoxLauncher;
 import com.fox2code.foxloader.loader.Mod;
 
 import java.io.*;
+
+import static com.fox2code.foxloader.loader.ModLoader.getConfigFolder;
 
 public class DynamicLights extends Mod {
 
     public static final DynamicLightsConfig CONFIG = new DynamicLightsConfig();
     public static File configDir;
     public static File configFile;
+    public static FoxLoaderEvents.CallbackList callbacks;
 
     @Override
     public void onPreInit() {
@@ -18,6 +24,13 @@ public class DynamicLights extends Mod {
         configFile = new File(configDir, "catroidvaniadynamiclights.txt");
         CONFIG.readConfig();
         System.out.println("dynamic lights initialised");
+    }
+
+    @Override
+    public void onPostInit() {
+        if (FoxLauncher.isClient()) {
+            FoxLoaderEvents.INSTANCE.registerEvents(DynamicLightsClient.INSTANCE);
+        }
     }
 
     public static class DynamicLightsConfig {
@@ -130,31 +143,23 @@ public class DynamicLights extends Mod {
         }
 
         public float getMaxDistanceValue(LightsDistance ld) {
-            switch (ld) {
-                case SHORT:
-                    return 16.0f;
-                case MEDIUM:
-                    return 32.0f;
-                case FAR:
-                    return 64.0f;
-                case UNLIMITED:
-                    return 1024.0f;
-            }
-            return 0;
+            return switch (ld) {
+                case SHORT -> 16.0f;
+                case MEDIUM -> 32.0f;
+                case FAR -> 64.0f;
+                case UNLIMITED -> 1024.0f;
+                default -> 0;
+            };
         }
 
         public int getTicksPerUpdate(UpdatesPerSecond ups) {
-            switch (ups) {
-                case MINIMAL:
-                    return 10;
-                case DECREASED:
-                    return 4;
-                case SMOOTH:
-                    return 2;
-                case SMOOTHEST:
-                    return 1;
-            }
-            return 1;
+            return switch (ups) {
+                case MINIMAL -> 10;
+                case DECREASED -> 4;
+                case SMOOTH -> 2;
+                case SMOOTHEST -> 1;
+                default -> 1;
+            };
         }
     }
 }

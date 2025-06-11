@@ -2,27 +2,39 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url 'https://cdn.fox2code.com/maven' }
-        maven { url 'https://jitpack.io/' }
     }
     dependencies {
-        classpath('com.fox2code.FoxLoader:dev:1.3.0')
+        classpath('com.fox2code.FoxLoader:dev:2.0-alpha15')
     }
 }
 
 apply plugin: 'foxloader.dev'
 
-version '1.3.1'
+group = 'com.fox2code'
+version = '2.0.0'
+
+dependencies {
+    api 'org.semver4j:semver4j:5.3.0'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    from "LICENSE"
+}
+
+//foxloader.decompileSources = false
 
 foxloader {
-    // forceReload = true
     modId = "catroidvaniadynamiclights"
     modName = "cats dynamic lights"
+    //modIcon = "assets/examplemod/icon.png"
     modVersion = project.version
-    modDesc = "a dynamic lights mod"
-    clientMod = "com.catroidvania.dynamiclights.DynamicLightsClient"
-    //serverMod = "com.catroidvania.dynamiclights.ModTemplateServer"
-    // Development tools don't like that both client and server define
-    // the same classes, so uncomment to disable the side inclusion.
-    // includeClient = false
-    // includeServer = false
+    modAuthors = "catroidvania"
+    modMain = "com.catroidvania.dynamiclights.DynamicLights"
+    modDesc("a dynamic lights mod")
 }

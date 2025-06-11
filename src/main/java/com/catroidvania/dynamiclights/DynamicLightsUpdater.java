@@ -150,10 +150,6 @@ public class DynamicLightsUpdater {
         }
         int id = item.getItemID();
 
-        if (item.getItem() instanceof EmissiveItem) {
-            return 3;
-        }
-
         if (item.getItem().isItemBlock()) {
             ItemBlock itemBlock = (ItemBlock)item.getItem();
             if (itemBlock == null) {
@@ -217,6 +213,10 @@ public class DynamicLightsUpdater {
                     id == Items.GLOWING_MOOSHROOM_SPAWN_EGG.itemID) {
                 return 9;
             }
+        }
+
+        if (item.getItem() instanceof EmissiveItem) {
+            return 6;
         }
 
         return 0;

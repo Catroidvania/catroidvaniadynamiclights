@@ -12,6 +12,7 @@ import net.minecraft.common.entity.projectile.*;
 import net.minecraft.common.item.Items;
 import net.minecraft.common.item.block.ItemBlock;
 import net.minecraft.common.item.ItemStack;
+import net.minecraft.common.item.data.EmissiveItem;
 import net.minecraft.common.world.World;
 
 import java.util.List;
@@ -142,6 +143,10 @@ public class DynamicLightsUpdater {
             return 0;
         }
         int id = item.getItemID();
+
+        if (item.getItem() instanceof EmissiveItem) {
+            return 3;
+        }
 
         if (item.getItem().isItemBlock()) {
             ItemBlock itemBlock = (ItemBlock)item.getItem();

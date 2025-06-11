@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.EntityOtherPlayerMP;
 import net.minecraft.common.block.Blocks;
 import net.minecraft.common.entity.Entity;
+import net.minecraft.common.entity.animals.EntityCucurboo;
+import net.minecraft.common.entity.animals.EntityGlowingMooshroom;
 import net.minecraft.common.entity.monsters.EntityBlaze;
 import net.minecraft.common.entity.monsters.EntityCreeper;
 import net.minecraft.common.entity.other.*;
@@ -133,6 +135,10 @@ public class DynamicLightsUpdater {
                 return 15;
             } else if (entity instanceof EntityBlaze) {
                 return 15;
+            } else if (entity instanceof EntityCucurboo) {
+                return 12;
+            } else if (entity instanceof EntityGlowingMooshroom) {
+                return 12;
             }
         }
         return 0;
@@ -154,7 +160,12 @@ public class DynamicLightsUpdater {
                 return 0;
             }
             id = itemBlock.blockID;
+            int blockLight = Blocks.BLOCKS_LIST[id].getLightValueInt();
+            if (blockLight > 0) {
+                return blockLight;
+            }
 
+        /* // i think i will ignore emissives for now
             if (id == Blocks.TORCH.blockID) {
                 return 14;
             } else if (id == Blocks.GLOWSTONE.blockID ||
@@ -180,11 +191,14 @@ public class DynamicLightsUpdater {
             } else if (id == Blocks.BROWN_MUSHROOM.blockID) {
                 return 1;
             }
+        */
         } else {
             if (id == Items.STICKY_TORCH.itemID) {
                 return 14;
             } else if (id == Items.LAVA_BUCKET.itemID ||
-                    id == Items.GOLDEN_LAVA_BUCKET.itemID) {
+                    id == Items.GOLDEN_LAVA_BUCKET.itemID ||
+                    id == Items.ACID_BUCKET.itemID ||
+                    id == Items.GOLDEN_ACID_BUCKET.itemID) {
                 return 15;
             } else if (id == Items.MOLTEN_SWORD.itemID ||
                     id == Items.MOLTEN_SHOVEL.itemID ||
@@ -192,14 +206,16 @@ public class DynamicLightsUpdater {
                     id == Items.MOLTEN_AXE.itemID ||
                     id == Items.MOLTEN_HOE.itemID) {
                 return 13;
-            } else if (id == Items.GLOWSTONE_DUST.itemID ||
-                    id == Items.FIRE_CHARGE.itemID ||
-                    id == Items.LIGHTNING_CHARGE.itemID ||
-                    id == Items.FLAMING_POTION.itemID) {
-                return 9;
             } else if (id == Items.BLAZE_SPAWN_EGG.itemID ||
                     id == Items.BOTTLED_FLAME.itemID) {
                 return 12;
+            } else if (id == Items.GLOWSTONE_DUST.itemID ||
+                    id == Items.FIRE_CHARGE.itemID ||
+                    id == Items.LIGHTNING_CHARGE.itemID ||
+                    id == Items.FLAMING_POTION.itemID ||
+                    id == Items.CUCURBOO_SPAWN_EGG.itemID ||
+                    id == Items.GLOWING_MOOSHROOM_SPAWN_EGG.itemID) {
+                return 9;
             }
         }
 
@@ -220,7 +236,13 @@ public class DynamicLightsUpdater {
             id = itemBlock.blockID;
 
             return id != Blocks.TORCH.blockID &&
-                    id != Blocks.JACK_O_LANTERN.blockID;
+                    id != Blocks.JACK_O_LANTERN.blockID &&
+                    id != Blocks.JACK_O_MELON.blockID   // oh god theres variants
+                    /* vvv made of rocks :/ &&
+                    id != Blocks.CITRINE_TORCH.blockID &&
+                    id != Blocks.JET_TORCH.blockID &&
+                    id != Blocks.QUARTZ_TORCH.blockID &&
+                    id != Blocks.MYTHRIL_TORCH.blockID*/;
         } else {
             return id != Items.STICKY_TORCH.itemID &&
                     id != Items.FLAMING_POTION.itemID &&

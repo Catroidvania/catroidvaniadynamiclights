@@ -22,15 +22,19 @@ import java.util.List;
 public class DynamicLightsUpdater {
 
     public DynamicLightHash lightMap = new DynamicLightHash();
-    public static final Minecraft mc = Minecraft.theMinecraft;
+    //public static final Minecraft mc = Minecraft.theMinecraft;
     public static EntityPlayer player = Minecraft.theMinecraft.thePlayer;
     public static World world = Minecraft.theMinecraft.theWorld;
     public long tick = 0;
 
     public void updateDynamicLights() {
-        player = mc.thePlayer;
-        //world = mc.theWorld;
-        world = mc.thePlayer.getWorld();
+        // theres gotta be a better way to do this lmao
+        player = Minecraft.theMinecraft.thePlayer;
+        if (player == null) { return; }
+
+        world = player.worldObj;
+        if (world == null) { return; }
+
         this.tick++;
         if (needsUpdate()) {
             this.lightMap.clearLightMap();
@@ -38,6 +42,10 @@ public class DynamicLightsUpdater {
             if (DynamicLights.CONFIG.maxEntityDistance != DynamicLights.DynamicLightsConfig.LightsDistance.OFF) {
                 this.updateEntityLight();
             }
+        }
+
+        if (this.tick > 1000000) {
+            this.tick = 0;
         }
     }
 

@@ -71,7 +71,7 @@ public class DynamicLightsUpdater {
         }
         List<Entity> entities = world.getLoadedEntityList();
         for (Entity entity: entities) {
-            if (entity != null) {
+            if (entity != null && entity != player) {
                 float entityDist = player.getDistanceToEntity(entity);
                 if (entityDist > DynamicLights.CONFIG.getMaxDistanceValue(DynamicLights.CONFIG.maxEntityDistance)) {
                     continue;

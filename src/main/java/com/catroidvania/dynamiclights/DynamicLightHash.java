@@ -57,6 +57,7 @@ public class DynamicLightHash {
     }
 
     public void setLightWithPropagate(int x, int y, int z, int level) {
+        if (level <= 0) { return; }
         int currentLevel = this.getLight(x, y, z);
         if (level > currentLevel) {
             this.dynamicLightMap.put(new CoordHashKey(x, y, z), level);

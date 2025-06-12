@@ -5,6 +5,8 @@ import com.fox2code.foxloader.event.FoxLoaderEvents;
 import com.fox2code.foxloader.event.world.WorldTickEvent;
 import com.fox2code.foxloader.launcher.FoxLauncher;
 import com.fox2code.foxloader.loader.Mod;
+import net.minecraft.common.block.Block;
+import net.minecraft.common.block.Blocks;
 
 import java.io.*;
 

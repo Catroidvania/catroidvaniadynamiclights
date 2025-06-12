@@ -4,17 +4,41 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.common.world.chunk.Chunk;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DynamicLightHash {
 
     public HashMap<CoordHashKey, Integer> dynamicLightMap;
+    public HashMap<CoordHashKey, Integer> dynamicLightSourcesMap;
 
     public DynamicLightHash() {
-        this.dynamicLightMap = new HashMap<>(512);
+        this.dynamicLightMap = new HashMap<>();
+        this.dynamicLightSourcesMap = new HashMap<>();
     }
 
     public void clearLightMap() {
+        for (Map.Entry<CoordHashKey, Integer> entry : dynamicLightSourcesMap.entrySet()) {
+            CoordHashKey pos = entry.getKey();
+            int level = entry.getValue();
+            Minecraft.theMinecraft.theWorld.scheduleLightingUpdate(
+                    pos.x - level,
+                    pos.y - level,
+                    pos.z - level,
+                    pos.x + level,
+                    pos.y + level,
+                    pos.z + level,
+                    0
+                );
+        }
         this.dynamicLightMap.clear();
+        this.dynamicLightSourcesMap.clear();
+    }
+
+    public void setLightSource(int x, int y, int z, int level) {
+        setLightWithPropagate(x, y, z, level);
+        this.dynamicLightSourcesMap.put(new CoordHashKey(x, y, z), level);
+        Chunk chunk = Minecraft.theMinecraft.theWorld.getChunkFromBlockCoordsSafe(x, y, z);
+        chunk.setLightValue(x & 15, y & 15, z & 15, level);
     }
 
     public void setLightWithUpdate(int x, int y, int z, int level) {
@@ -36,7 +60,6 @@ public class DynamicLightHash {
         int currentLevel = this.getLight(x, y, z);
         if (level > currentLevel) {
             this.dynamicLightMap.put(new CoordHashKey(x, y, z), level);
-            //Minecraft.theMinecraft.theWorld.markBlockAsNeedsUpdate(x, y, z);
             level -= 1;
             this.setLightWithPropagate(x + 1, y, z, level);
             this.setLightWithPropagate(x - 1, y, z, level);

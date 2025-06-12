@@ -29,7 +29,8 @@ public class DynamicLightsUpdater {
 
     public void updateDynamicLights() {
         player = mc.thePlayer;
-        world = mc.theWorld;
+        //world = mc.theWorld;
+        world = mc.thePlayer.getWorld();
         this.tick++;
         if (needsUpdate()) {
             this.lightMap.clearLightMap();
@@ -56,7 +57,8 @@ public class DynamicLightsUpdater {
             }
 
             //this.lightMap.setLightWithPropagate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
-            this.lightMap.setLightWithUpdate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
+            //this.lightMap.setLightWithUpdate(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
+            this.lightMap.setLightSource(blockPos(player.posX), blockPos(player.posY), blockPos(player.posZ), getItemLight(heldItem));
         }
     }
 
@@ -75,7 +77,8 @@ public class DynamicLightsUpdater {
                     continue;
                 }
                 //this.lightMap.setLightWithPropagate(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
-                this.lightMap.setLightWithUpdate(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
+                //this.lightMap.setLightWithUpdate(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
+                this.lightMap.setLightSource(blockPos(entity.posX), blockPos(entity.posY), blockPos(entity.posZ), getEntityLight(entity));
             }
         }
     }
@@ -239,7 +242,10 @@ public class DynamicLightsUpdater {
 
             return id != Blocks.TORCH.blockID &&
                     id != Blocks.JACK_O_LANTERN.blockID &&
-                    id != Blocks.JACK_O_MELON.blockID   // oh god theres variants
+                    // jack o variants + melons
+                    !(id >= 882 && id <= 893) &&
+                    !(id >= 906 && id <= 918)
+                    //id != Blocks.JACK_O_MELON.blockID
                     /* vvv made of rocks :/ &&
                     id != Blocks.CITRINE_TORCH.blockID &&
                     id != Blocks.JET_TORCH.blockID &&
